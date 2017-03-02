@@ -1,0 +1,124 @@
+void LNRS_dp_hash_impro(char * arr, int size)
+
+      {
+
+      memset(visit, -1, sizeof visit);
+
+      maxlen = maxindex = 0;
+
+      visit[arr[0]] = 0;
+
+      int curlen = 1;
+
+      int last_start = 0;
+
+      for(int i = 1; i < size; ++i)
+
+      {
+
+      if(visit[arr[i]] == -1)
+
+      {
+
+      ++curlen;
+
+      visit[arr[i]] = i; /* 记录字符下标 */
+
+      }else
+
+      {
+
+      if(last_start <= visit[arr[i]])
+
+      {
+
+      curlen = i - visit[arr[i]];
+
+      last_start = visit[arr[i]] + 1;
+
+      visit[arr[i]] = i; /* 更新最近重复位置 */
+
+      }else
+
+      {
+
+      ++curlen;
+
+      visit[arr[i]] = i; /* 更新最近重复位置 */
+
+      }
+
+      }
+
+      if(curlen > maxlen)
+
+      {
+
+      maxlen = curlen;
+
+      maxindex = i + 1 - maxlen;
+
+      }
+
+      }
+
+      output(arr);
+
+      }
+
+      最后给出输出函数与测试用例：
+
+
+      /* 输出LNRS */
+
+      void output(char * arr)
+
+      {
+
+      if(maxlen == 0)
+
+      {
+
+      printf("NO LNRS\n");
+
+      }
+
+      printf("The len of LNRS is %d\n",maxlen);
+
+      int i = maxindex;
+
+      while(maxlen--)
+
+      {
+
+      printf("%c",arr[i++]);
+
+      }
+
+      printf("\n");
+
+      }
+
+      void main()
+
+      {
+
+      char arr[] = "abcaacdeabacdefg";
+
+      /* LNRS 基本算法 */
+
+      LNRS_hash(arr,strlen(arr));
+
+      /* LNRS dp */
+
+      LNRS_dp(arr,strlen(arr));
+
+      /* LNRS dp + hash 记录下标 */
+
+      LNRS_dp_hash(arr,strlen(arr));
+
+      /* LNRS dp + hash 优化方案 */
+
+      LNRS_dp_hash_impro(arr,strlen(arr));
+
+      }
